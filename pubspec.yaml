@@ -1,0 +1,51 @@
+name: flappy_bird
+description: ""
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_lints: ^5.0.0
+  flame:
+  flame_audio:
+  provider:
+  shared_preferences: ^2.5.3
+  flutter_native_splash: ^2.4.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  change_app_package_name: ^1.5.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/audio/
+
+  fonts:
+    - family: Flappybird
+      fonts:
+        - asset: assets/fonts/FlappybirdyRegular.ttf
+    - family: Botsmatic
+      fonts:
+        - asset: assets/fonts/Botsmatic.ttf
+
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/logo.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/yellowbird-upflap.png"
