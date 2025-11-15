@@ -66,7 +66,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: ScoreDisplay(
-                      score: 0,
+                      score: state.score,
                       digitWidth: 28,
                       digitHeight: 40,
                     ),
