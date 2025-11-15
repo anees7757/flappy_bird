@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui' as ui;
-import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +31,10 @@ class FirstGame extends FlameGame {
   // Smooth background transition
   late ui.Image previousBackground;
   late ui.Image targetBackground;
-  double backgroundTransition = 0.0; // 0 = old, 1 = new
-  double backgroundTransitionSpeed = 0.5; // fade speed
+  double backgroundTransition = 0.0;
+  double backgroundTransitionSpeed = 0.5;
   double backgroundChangeTimer = 0;
-  double backgroundChangeInterval = 120; // seconds before change
+  double backgroundChangeInterval = 120;
 
   // Bird
   double birdX = 0;
@@ -47,6 +46,7 @@ class FirstGame extends FlameGame {
   int currentFrame = 0;
   double flapTimer = 0;
   double flapInterval = 0.1;
+  double birdRotationZ = 0; // rotation for tilt
 
   // Ground and pipes
   double groundHeight = 150;
@@ -74,13 +74,11 @@ class FirstGame extends FlameGame {
       await images.load('background-night.png'),
     ];
 
-    // Both previous and target start as the same, no transition at start
     backgroundImage = backgrounds[0];
     previousBackground = backgrounds[0];
     targetBackground = backgrounds[0];
-
-    backgroundTransition = 1.0; // fully showing current background
-    backgroundChangeTimer = 0; // start timer
+    backgroundTransition = 1.0;
+    backgroundChangeTimer = 0;
 
     groundImage = await images.load('base.png');
     pipeTopImage = await images.load('pipe_top.png');
@@ -168,6 +166,10 @@ class FirstGame extends FlameGame {
     velocityY += gravity * dt;
     birdY += velocityY * dt;
 
+    // Bird tilt based on velocity
+    birdRotationZ = velocityY * 0.0015;
+    birdRotationZ = birdRotationZ.clamp(-0.5, 0.5);
+
     // Bird flap animation
     flapTimer += dt;
     if (flapTimer >= flapInterval) {
@@ -203,13 +205,26 @@ class FirstGame extends FlameGame {
       if (pipe.x + pipe.width < 0) pipes.remove(pipe);
 
       // Collision detection
-      Rect birdRect = Rect.fromLTWH(birdX, birdY, birdSize, birdSize);
-      Rect topPipe = Rect.fromLTWH(pipe.x, 0, pipe.width, pipe.gapY);
+      double collisionMargin = 5;
+      Rect birdRect = Rect.fromLTWH(
+        birdX + collisionMargin,
+        birdY + collisionMargin,
+        birdSize - collisionMargin * 2,
+        birdSize - collisionMargin * 2,
+      );
+
+      double capHeight = 24.0;
+      Rect topPipe = Rect.fromLTWH(
+        pipe.x,
+        0,
+        pipe.width,
+        pipe.gapY - capHeight / 2,
+      );
       Rect bottomPipe = Rect.fromLTWH(
         pipe.x,
-        pipe.gapY + pipe.gapHeight,
+        pipe.gapY + pipe.gapHeight + capHeight / 2,
         pipe.width,
-        size.y - groundHeight - pipe.gapY - pipe.gapHeight,
+        size.y - groundHeight - pipe.gapY - pipe.gapHeight - capHeight / 2,
       );
 
       if (birdRect.overlaps(topPipe) || birdRect.overlaps(bottomPipe)) {
@@ -230,12 +245,16 @@ class FirstGame extends FlameGame {
       _drawPipe(canvas, pipe);
     }
 
+    canvas.save();
+    canvas.translate(birdX + birdSize / 2, birdY + birdSize / 2);
+    canvas.rotate(birdRotationZ);
     paintImage(
       canvas: canvas,
-      rect: Rect.fromLTWH(birdX, birdY, birdSize, birdSize),
+      rect: Rect.fromLTWH(-birdSize / 2, -birdSize / 2, birdSize, birdSize),
       image: birdFrames[currentFrame],
       fit: BoxFit.contain,
     );
+    canvas.restore();
 
     _drawScrollingGround(canvas);
   }
@@ -395,6 +414,7 @@ class FirstGame extends FlameGame {
   void restart() {
     birdY = size.y / 2;
     velocityY = 0;
+    birdRotationZ = 0;
     pipes.clear();
     pipeSpawnTimer = 0;
     groundOffset = 0;

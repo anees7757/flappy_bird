@@ -41,7 +41,7 @@ class _BouncePlayButtonState extends State<BouncePlayButton>
           duration: const Duration(milliseconds: 100),
           curve: Curves.easeOut,
           child: SizedBox(
-            height: 80,
+            height: MediaQuery.sizeOf(context).width / 5.4,
             child: Image.asset("assets/images/play_btn.png"),
           ),
         ),
