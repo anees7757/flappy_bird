@@ -120,11 +120,9 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
 
                                     setState(() => selectedBirdIndex = index);
                                   },
-                                  child: AnimatedContainer(
+                                  child: Container(
                                     height: clampedBirdSize,
                                     width: clampedBirdSize,
-                                    duration: const Duration(milliseconds: 150),
-                                    curve: Curves.easeInOut,
                                     padding: EdgeInsets.all(
                                       clampedBirdSize * 0.08,
                                     ),
