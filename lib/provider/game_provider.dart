@@ -8,6 +8,7 @@ class GameState extends ChangeNotifier {
   bool _isGameOver = false;
   bool _hasStarted = false;
   bool _isGameLaunched = false;
+  bool _isGameLoading = false;
 
   String selectedBird = 'yellow';
 
@@ -20,6 +21,8 @@ class GameState extends ChangeNotifier {
   bool get hasStarted => _hasStarted;
 
   bool get isGameLaunched => _isGameLaunched;
+
+  bool get isGameLoading => _isGameLoading;
 
   void increaseScore() {
     _score++;
@@ -41,7 +44,7 @@ class GameState extends ChangeNotifier {
 
     if (_score > _highScore) {
       _highScore = _score;
-      SharedPrefsManager.saveHighScore(_score);
+      Future.wait([SharedPrefsManager.saveHighScore(_score)]);
     }
 
     notifyListeners();
@@ -49,6 +52,12 @@ class GameState extends ChangeNotifier {
 
   void setGameLaunched() {
     _isGameLaunched = true;
+    _isGameLoading = true;
+    notifyListeners();
+  }
+
+  void setGameLoading(bool value) {
+    _isGameLoading = value;
     notifyListeners();
   }
 

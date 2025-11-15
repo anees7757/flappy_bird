@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'dart:ui' as ui;
+import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/pipe.dart';
 import '../provider/game_provider.dart';
@@ -118,6 +118,8 @@ class FirstGame extends FlameGame {
       'die.wav',
       'point.wav',
     ]);
+
+    gameState.setGameLoading(false);
   }
 
   @override
@@ -129,6 +131,7 @@ class FirstGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
+
     if (!gameState.hasStarted || gameState.isGameOver) return;
 
     // Handle background change timer
@@ -246,7 +249,7 @@ class FirstGame extends FlameGame {
 
     for (int i = 0; i < tilesNeeded; i++) {
       // Previous background
-      paint.color = Colors.white.withValues(alpha:1.0 - backgroundTransition);
+      paint.color = Colors.white.withValues(alpha: 1.0 - backgroundTransition);
       canvas.drawImageRect(
         previousBackground,
         Rect.fromLTWH(
@@ -265,7 +268,7 @@ class FirstGame extends FlameGame {
       );
 
       // Target background
-      paint.color = Colors.white.withValues(alpha:backgroundTransition);
+      paint.color = Colors.white.withValues(alpha: backgroundTransition);
       canvas.drawImageRect(
         targetBackground,
         Rect.fromLTWH(

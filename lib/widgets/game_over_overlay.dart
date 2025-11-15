@@ -30,13 +30,16 @@ class GameOverOverlay extends StatelessWidget {
                 children: [
                   Image.asset("assets/images/gameover.png", width: 200),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ScoreBox(title: "Score", value: state.score),
-                      if (state.highScore != 0)
-                        ScoreBox(title: "Best", value: state.highScore),
-                    ],
+                  SizedBox(
+                    width: 500,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ScoreBox(title: "Score", value: state.score),
+                        if (state.highScore != 0)
+                          ScoreBox(title: "Best", value: state.highScore),
+                      ],
+                    ),
                   ),
 
                   ElevatedButton(
