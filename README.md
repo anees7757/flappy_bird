@@ -13,9 +13,9 @@ A classic Flappy Bird game built with Flutter and the Flame engine.
 
 ## 📸 Screenshots
 
-| Start Screen | Gameplay | Game Over |
-| :---: | :---: | :---: |
-| <img src="assets/images/img.png" height="500" alt="Start Screen"> | <img src="assets/images/img_2.png" height="500" alt="Gameplay"> | <img src="assets/images/img_3.png" height="500" alt="Game Over"> |
+| Bird Selection | Ready Screen | Gameplay | Game Over |
+| :---: | :---: | :---: | :---: |
+| <img src="assets/images/img.png" height="500" alt="Start Screen"> | <img src="assets/images/img_1.png" height="500" alt="Start Screen"> | <img src="assets/images/img_2.png" height="500" alt="Gameplay"> | <img src="assets/images/img_3.png" height="500" alt="Game Over"> |
 
 
 ## 📦 Getting Started
