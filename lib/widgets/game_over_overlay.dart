@@ -1,8 +1,12 @@
+import 'package:flappy_bird/widgets/score_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../game/game.dart';
 import '../provider/game_provider.dart';
-import 'score_box.dart';
+import 'game_button.dart';
+import 'game_overlay.dart';
+import 'outlined_text.dart';
 
 class GameOverOverlay extends StatelessWidget {
   final FirstGame game;
@@ -15,59 +19,31 @@ class GameOverOverlay extends StatelessWidget {
       builder: (_, state, __) {
         if (!state.isGameOver) return const SizedBox.shrink();
 
-        return Container(
-          color: Colors.black.withValues(alpha: 0.6),
-          child: Center(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 40),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                spacing: 60,
-                children: [
-                  Image.asset("assets/images/gameover.png", width: 200),
+        return GameOverlayContainer(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 60,
+            children: [
+              const OutlinedText(text: "game over", fontSize: 36),
 
-                  SizedBox(
-                    width: 500,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ScoreBox(title: "Score", value: state.score),
-                        if (state.highScore != 0)
-                          ScoreBox(title: "Best", value: state.highScore),
-                      ],
-                    ),
-                  ),
-
-                  ElevatedButton(
-                    onPressed: () => game.restart(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xffDDD69F),
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      elevation: 5,
-                    ),
-                    child: const Text(
-                      'play again',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Botsmatic",
-                      ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.2,
+                ),
+                child: Row(
+                  mainAxisAlignment: state.highScore > 0
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    ScoreBox(title: "Score", value: state.score),
+                    if (state.highScore > 0)
+                      ScoreBox(title: "Best", value: state.highScore),
+                  ],
+                ),
               ),
-            ),
+
+              GameButton(text: "restart", onPressed: () => game.restart()),
+            ],
           ),
         );
       },

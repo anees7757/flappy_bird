@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/game_provider.dart';
-import 'screens/customization_screen.dart';
+import 'screens/main_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +20,7 @@ void main() async {
 
   SharedPrefsManager.init();
 
-  runApp(
-    ChangeNotifierProvider(create: (_) => GameState(), child: const MyApp()),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,9 +28,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Center(child: GameScreen()),
+    return ChangeNotifierProvider(
+      create: (_) => GameState(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Center(child: GameScreen()),
+      ),
     );
   }
 }

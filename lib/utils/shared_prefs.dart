@@ -17,7 +17,7 @@ class SharedPrefsManager {
     return _prefs?.getInt('highScore') ?? 0;
   }
 
-  /// CLEAR EVERYTHING (OPTIONAL)
+  /// CLEAR EVERYTHING
   static Future clearAll() async {
     await _prefs?.clear();
   }

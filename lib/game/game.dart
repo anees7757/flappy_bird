@@ -5,6 +5,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import '../models/pipe.dart';
 import '../provider/game_provider.dart';
+import '../utils/asset_links.dart';
 
 class FirstGame extends FlameGame {
   final GameState gameState;
@@ -66,13 +67,14 @@ class FirstGame extends FlameGame {
   Future<void> onLoad() async {
     super.onLoad();
 
+    images.prefix = '';
+
     birdX = size.x * 0.2;
 
     // Load backgrounds
-    backgrounds = [
-      await images.load('background-day.png'),
-      await images.load('background-night.png'),
-    ];
+    backgrounds = await Future.wait(
+      Assets.backgrounds.map((path) => images.load(path)).toList(),
+    );
 
     backgroundImage = backgrounds[0];
     previousBackground = backgrounds[0];
@@ -80,41 +82,33 @@ class FirstGame extends FlameGame {
     backgroundTransition = 1.0;
     backgroundChangeTimer = 0;
 
-    groundImage = await images.load('base.png');
-    pipeTopImage = await images.load('pipe_top.png');
-    pipeBottomImage = await images.load('pipe_bottom.png');
+    groundImage = await images.load(Assets.ground);
+    pipeTopImage = await images.load(Assets.pipeTop);
+    pipeBottomImage = await images.load(Assets.pipeBottom);
 
     // Load bird frames based on user selection
-    String selectedBird = gameState.selectedBird.split('/').last;
-    String birdColor = selectedBird.replaceAll(RegExp(r'[^a-zA-Z]'), '');
-
-    String prefix = birdColor.contains('blue')
-        ? 'bluebird'
-        : birdColor.contains('red')
-        ? 'redbird'
-        : 'yellowbird';
-
-    birdFrames = [
-      await images.load('$prefix-downflap.png'),
-      await images.load('$prefix-midflap.png'),
-      await images.load('$prefix-upflap.png'),
-    ];
+    final birdIndex = Assets.birds.indexOf(gameState.selectedBird);
+    birdFrames = await Future.wait(
+      Assets.birdAnimations[birdIndex]
+          .map((path) => images.load(path))
+          .toList(),
+    );
 
     // Cache dimensions
     backgroundWidth = backgroundImage.width.toDouble();
     groundWidth = groundImage.width.toDouble();
 
     // Load sounds
-    jumpSound = await FlameAudio.createPool('wing.wav', maxPlayers: 3);
-    pointSound = await FlameAudio.createPool('point.wav', maxPlayers: 1);
-    hitSound = await FlameAudio.createPool('hit.wav', maxPlayers: 1);
-    dieSound = await FlameAudio.createPool('die.wav', maxPlayers: 1);
+    jumpSound = await FlameAudio.createPool(Assets.wing, maxPlayers: 3);
+    pointSound = await FlameAudio.createPool(Assets.point, maxPlayers: 1);
+    hitSound = await FlameAudio.createPool(Assets.hit, maxPlayers: 1);
+    dieSound = await FlameAudio.createPool(Assets.die, maxPlayers: 1);
 
     await FlameAudio.audioCache.loadAll([
-      'wing.wav',
-      'hit.wav',
-      'die.wav',
-      'point.wav',
+      Assets.wing,
+      Assets.hit,
+      Assets.die,
+      Assets.point,
     ]);
 
     gameState.setGameLoading(false);

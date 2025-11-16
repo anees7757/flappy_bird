@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/asset_links.dart';
+
 class BouncePlayButton extends StatefulWidget {
   final VoidCallback onTap;
 
@@ -42,7 +44,7 @@ class _BouncePlayButtonState extends State<BouncePlayButton>
           curve: Curves.easeOut,
           child: SizedBox(
             height: MediaQuery.sizeOf(context).width / 5.4,
-            child: Image.asset("assets/images/play_btn.png"),
+            child: Image.asset(Assets.playButton),
           ),
         ),
       ),

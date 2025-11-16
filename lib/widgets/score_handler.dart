@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/asset_links.dart';
+
 class ScoreDisplay extends StatelessWidget {
   final int score;
   final double digitWidth;
@@ -19,14 +21,11 @@ class ScoreDisplay extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: scoreString.split('').map((digit) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: Image.asset(
-            'assets/images/$digit.png',
-            width: digitWidth,
-            height: digitHeight,
-            fit: BoxFit.contain,
-          ),
+        return Image.asset(
+          Assets.number(digit),
+          width: digitWidth,
+          height: digitHeight,
+          fit: BoxFit.contain,
         );
       }).toList(),
     );

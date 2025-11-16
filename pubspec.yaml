@@ -2,7 +2,7 @@ name: flappy_bird
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.1+4
+version: 1.2.0+5
 
 environment:
   sdk: ^3.9.2
@@ -30,6 +30,13 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/background/
+    - assets/images/bird/blue/
+    - assets/images/bird/red/
+    - assets/images/bird/yellow/
+    - assets/images/components/
+    - assets/images/numbers/
+    - assets/images/pipe/
     - assets/audio/
 
   fonts:

@@ -7,9 +7,9 @@ A classic Flappy Bird game built with Flutter and the Flame engine.
 - **Classic Flappy Bird Gameplay** – Tap the screen to make the bird fly and navigate through the pipes.  
 - **Score Tracking** – Earn points for each pipe you successfully pass.  
 - **High Score** – Your best score is saved and displayed on the game over screen.  
+- **Pause Game** – Pause the game anytime and resume when you're ready.
 - **Game Over and Restart** – Colliding with a pipe or the ground ends the game; restart to try again.  
 - **Flame Engine Powered** – Uses Flame for the game loop, physics, and component management.  
-- **Provider for State Management** – Manages game state like score and game over status.  
 
 ## 📸 Screenshots
 

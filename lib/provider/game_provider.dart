@@ -9,6 +9,10 @@ class GameState extends ChangeNotifier {
   bool _hasStarted = false;
   bool _isGameLaunched = false;
   bool _isGameLoading = false;
+  bool _isPaused = false;
+  bool _isCountingDown = false;
+  int _countdownValue = 3;
+
 
   String selectedBird = 'yellow';
 
@@ -23,6 +27,11 @@ class GameState extends ChangeNotifier {
   bool get isGameLaunched => _isGameLaunched;
 
   bool get isGameLoading => _isGameLoading;
+
+  bool get isPaused => _isPaused;
+
+  bool get isCountingDown => _isCountingDown;
+  int get countdownValue => _countdownValue;
 
   void increaseScore() {
     _score++;
@@ -39,10 +48,38 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void pauseGame() {
+    if (_hasStarted && !_isGameOver) {
+      _isPaused = true;
+      notifyListeners();
+    }
+  }
+
+  void resumeGame() {
+    _isPaused = false;
+    notifyListeners();
+  }
+
+  void startCountdown() {
+    _isCountingDown = true;
+    _countdownValue = 3;
+    notifyListeners();
+  }
+
+  void updateCountdown(int value) {
+    _countdownValue = value;
+    notifyListeners();
+  }
+
+  void endCountdown() {
+    _isCountingDown = false;
+    notifyListeners();
+  }
+
   void setGameOver(bool value) {
     _isGameOver = value;
 
-    if (_score > _highScore) {
+    if (score > highScore) {
       _highScore = _score;
       Future.wait([SharedPrefsManager.saveHighScore(_score)]);
     }
